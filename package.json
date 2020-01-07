@@ -29,10 +29,14 @@
     "stylelint-config-standard": "^19.0.0"
   },
   "dependencies": {
+    "js-cookie": "^2.2.1",
     "json": "^9.0.6",
     "react": "^16.12.0",
+    "react-burger-menu": "^2.6.13",
     "react-dom": "^16.12.0",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "^3.3.0"
+    "react-scripts": "^3.3.0",
+    "steem": "^0.7.10",
+    "steemconnect": "^3.0.4"
   }
 }

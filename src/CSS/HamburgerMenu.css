@@ -1,0 +1,117 @@
+:root {
+  font: 16px / 1 sans-serif;
+}
+
+html {
+  height: 100%;
+  color: white;
+}
+
+body {
+  margin: 0;
+  min-height: 100%;
+  background-color: #231f20;
+}
+
+.bm-burger-button {
+  position: fixed;
+  width: 36px;
+  height: 30px;
+  left: 36px;
+  top: 36px;
+}
+
+/* Color/shape of burger icon bars */
+.bm-burger-bars {
+  background: white;
+}
+
+/* Color/shape of burger icon bars on hover*/
+.bm-burger-bars-hover {
+  background: #a90000;
+}
+
+/* Position and sizing of clickable cross button */
+.bm-cross-button {
+  height: 24px;
+  width: 24px;
+}
+
+/* Color/shape of close button cross */
+.bm-cross {
+  background: #bdc3c7;
+}
+
+/*
+Sidebar wrapper styles
+Note: Beware of modifying this element as it can break the animations - you should not need to touch it in most cases
+*/
+.bm-menu-wrap {
+  position: fixed;
+  height: 100%;
+}
+
+/* General sidebar styles */
+.bm-menu {
+  background: #231f20;
+  /* padding: 2.5em 1.5em 0; */
+  font-size: 1.15em;
+}
+
+/* Morph shape necessary with bubble or elastic */
+.bm-morph-shape {
+  fill: #373a47;
+}
+
+/* Wrapper for item list */
+.bm-item-list {
+  color: #b8b7ad;
+}
+
+/* Individual item */
+.bm-item {
+  display: inline-block;
+}
+
+/* Styling of overlay */
+.bm-overlay {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.moopsLogoMenu {
+  height: 5rem;
+  width: auto;
+  margin: 2rem;
+}
+
+.items > div {
+  display:flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: rgb(92, 92, 92);
+  border: 1px solid #231f20;
+  font-size: 1.5rem;
+  padding: 0.75rem;
+}
+
+a {
+  text-decoration: none;
+}
+span {
+  color: white;
+  text-decoration: none;
+}
+
+i {
+  color: rgb(43, 43, 43);
+  text-decoration: none;
+}
+
+.dropDown > i {
+  margin: 1rem;
+  font-size: 3rem;
+}
+
+.iconText {
+  font-size:0rem;
+}

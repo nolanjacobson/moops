@@ -1,0 +1,112 @@
+:root {
+  font: 16px / 1 sans-serif;
+}
+
+html {
+  height: 100%;
+  color: white;
+}
+
+body {
+  margin: 0;
+  min-height: 100%;
+  background-color: #231F20;
+}
+
+.flexIcons > i {
+  display: flex;
+  color: white;
+  font-size: 2rem;
+  float: right;
+  margin-top: 2rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.profilePicture {
+  object-fit: cover;
+  border-radius: 50%;
+  border-style: solid;
+  border-width: 2px;
+  height: 3rem;
+  margin-top: 1.5rem;
+  margin-left: 5.5rem;
+  border-color: white;
+}
+
+.bm-burger-button {
+  position: fixed;
+  width: 36px;
+  height: 30px;
+  left: 36px;
+  top: 36px;
+}
+
+.categoryNameFlex {
+  display: flex;
+  flex-direction: column;
+  margin: 2rem;
+  width: 35%;
+}
+
+.categoryName {
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+}
+.moopsGradient {
+  width: 100%;
+  border: none;
+  height: 4px;
+  background-image: linear-gradient(
+    90deg,
+    rgba(131, 58, 180, 1) 0%,
+    rgba(253, 29, 29, 1) 64%,
+    rgba(252, 176, 69, 1) 100%
+  );
+}
+
+.categoryIconNav {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.categoryIconNavUl {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  list-style: none;
+  padding-inline-start: 0rem;
+  width: 100%;
+}
+
+.categoryIconNavLi {
+  font-size: 3rem;
+  color: #231F20;
+}
+
+.categoryIconNavLi > i:hover {
+  background-color: 
+}
+
+.fa-laugh-beam:hover {
+  color: #ff927f;
+}
+/* i {
+  color: rgb(141, 141, 141);
+  font-size:3rem;
+} */
+/* .fa-search {
+  display:flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  font-size:2rem;
+  color:white;
+}
+
+.fa-sync-alt {
+  display:flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  font-size:2rem;
+  color:white;
+} */

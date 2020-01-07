@@ -1,0 +1,15 @@
+:root {
+  font: 16px / 1 sans-serif;
+}
+
+html {
+  height: 100%;
+  color:white;
+}
+
+body {
+  margin: 0;
+  min-height: 100%;
+  background-color: #231F20;
+}
+
