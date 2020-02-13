@@ -9,7 +9,7 @@ html {
 body {
   margin: 0;
   min-height: 100%;
-  background-color: #231F20;
+  background-color: #231f20;
 }
 .flex {
   display: flex;
@@ -19,41 +19,47 @@ body {
 }
 
 .moopsBackgroundImage {
-  width:100%;
+  width: 100%;
 }
 
 .termsOfService {
-  display:flex;
-  flex-direction:column;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
-  width:50%;
-  margin:auto;
-  padding-bottom:5rem;
-  font-size:1.5rem;
-  text-align:center;
+  width: 50%;
+  margin: auto;
+  padding-bottom: 5rem;
+  font-size: 1.5rem;
+  text-align: center;
 }
 
 a {
-  color:lightblue;
+  color: lightblue;
 }
 
 .agreement {
-	background-color:#2c8b00;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size:18px;
-	font-weight:bold;
-	padding:15px 22px;
-  text-decoration:none;
-  border:none;
-
+  background-color: #2c8b00;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: Arial;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 15px 22px;
+  text-decoration: none;
+  border: none;
 }
 .agreement:hover {
-	background-color:#68a54b;
+  background-color: #68a54b;
 }
 .agreement:active {
-	position:relative;
-	top:1px;
+  position: relative;
+  top: 1px;
+}
+
+@media (min-width: 768px) {
+  .moopsBackgroundImage {
+    width: 50%;
+    height: 25%;
+  }
 }

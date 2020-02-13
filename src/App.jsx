@@ -7,41 +7,44 @@ import NotFound from './pages/NotFound'
 import HamburgerMenu from './pages/HamburgerMenu'
 import LoginPage from './pages/LoginPage'
 import Categories from './pages/Categories'
-const App = props => {
-  let steemConnect = require('steemconnect')
-  let client = new steemConnect.Client({
-    app: 'theprophet0',
-    callbackURL: 'http://127.0.0.1:3000/HomePage',
-    scope: ['login', 'vote', 'comment'],
-  })
+let steemConnect = require('steemconnect')
+let client = new steemConnect.Client({
+  app: 'moops',
+  callbackURL: 'http://127.0.0.1:3000/HomePage',
+  scope: ['login', 'posting', 'vote', 'comment'],
+})
+const App = () => {
   const [user, setUser] = useState({})
   const [truthyVal, setTruthyVal] = useState(false)
-  const [accessToken, setAccessToken] = useState('')
   const [anotherValue, setAnotherValue] = useState(false)
   const [resp, setResp] = useState({})
   const [x, setX] = useState()
   const [id, setId] = useState('')
+  const [accessToken, setAccessToken] = useState('')
   let params = {}
+  useEffect(() => {
+    if (id) {
+      setTruthyVal(true)
+    }
+    // console.log('accessToken', client.accessToken)
+  }, [id])
   const login = () => {
     // The "username" parameter is required prior to log in for "Steem Keychain" users.
     if (steemConnect.useSteemKeychain) {
       params = { username: '' }
     }
     client.login(params, function(err, token) {
-      console.log(err, token)
+      // console.log(client.getLoginURL())
+      // console.log(err, token)
       setAccessToken(client.setAccessToken(token))
-      console.log(client)
+      sessionStorage.setItem('accessToken', token)
       if (!err) {
         client.me(function(err, res) {
           setResp(res)
-          setId(res.account.id)
+          setId(res.user)
           console.log(resp)
           console.log(id)
-          setAnotherValue(true)
         })
-        if (anotherValue) {
-          setTruthyVal(true)
-        }
       } else {
         setTruthyVal(false)
         alert('Error: please try signing in again.')
@@ -49,7 +52,6 @@ const App = props => {
     })
   }
   console.log(resp)
-  console.log(id)
 
   return (
     <Router>
@@ -59,25 +61,14 @@ const App = props => {
         <Route
           exact
           path="/HomePage/:id"
-          render={() => {
-            return <HomePage client={client} accessToken={accessToken} />
-          }}
+          render={() => <HomePage client={client} />}
         ></Route>
         <Route
           exact
           path="/Login"
-          render={() => {
-            id !== '' && (
-              <LoginPage
-                login={login}
-                truthyVal={truthyVal}
-                accessToken={accessToken}
-                client={client}
-                id={id}
-                anotherValue={anotherValue}
-              />
-            )
-          }}
+          render={() => (
+            <LoginPage login={login} id={id} truthyVal={truthyVal} />
+          )}
         ></Route>
         <Route path="*" component={NotFound}></Route>
       </Switch>

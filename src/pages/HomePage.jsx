@@ -3,20 +3,33 @@ import HamburgerMenu from './HamburgerMenu'
 import HomePageStyles from '../CSS/HomePage.css'
 import profilePicture from '../images/githubProfile.PNG'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 import steem from 'steem'
 const HomePage = props => {
   const [categoryNames, setCategoryNames] = useState(['Funny'])
   const [showPrev, setShowPrev] = useState(false)
-  const [accessToken, setAccessToken] = useState(props.accessToken)
-  const resp = steem.api.getActiveWitnesses(function(err, result) {
-    console.log(err, result)
-  })
-  const resp2 = props.client.me(function(err, res) {
-    console.log(err, res)
-  })
-  console.log(resp2)
-  console.log(resp)
-  console.log(showPrev)
+  const [testBool, setTestBool] = useState(false)
+
+  // const resp = steem.api.getActiveWitnesses(function(err, result) {
+  //   console.log(err, result)
+
+  // })
+  // console.log(resp)
+  // const [accessToken, setAccessToken] = useState(props.accessToken)
+  // console.log(accessToken)
+  // console.log(
+  //   props.client.me(function(err, res) {
+  //     console.log(err, res)
+  //   })
+  // )
+  // console.log(showPrev)
+  // console.log(localStorage.getItem('token'))
+  // let client = localStorage.getItem('client')
+  useEffect(() => {
+    props.client.setAccessToken(sessionStorage.getItem('accessToken'))
+    console.log(props.client.accessToken)
+    setTestBool(true)
+  }, [])
   const showPreviousItem = () => {
     if (!showPrev) {
       setShowPrev(true)
@@ -36,6 +49,21 @@ const HomePage = props => {
   const [itemsToShow, setItemsToShow] = useState(5)
   const [expanded, setExpanded] = useState(false)
 
+  const meCall = async () => {
+    axios.defaults.headers.common['Authorization'] = sessionStorage.getItem(
+      'accessToken'
+    )
+    const response = await axios.post('https://api.steemconnect.com/api/me')
+    console.log(response, 'test')
+    // console.log(props.client.accessToken)
+    // props.client.me(function(err, res) {
+    //   console.log(err, res)
+    // })
+  }
+
+  useEffect(() => {
+    meCall()
+  }, [])
   const showMore = () => {
     if (!expanded) {
       setExpanded(true)
@@ -48,6 +76,12 @@ const HomePage = props => {
 
   return (
     <>
+      {testBool &&
+        console.log(
+          props.client.me(function(err, res) {
+            console.log(err, res)
+          })
+        )}
       <span className="flexIcons">
         <HamburgerMenu />
         <img className="profilePicture" src={profilePicture} />
@@ -57,13 +91,19 @@ const HomePage = props => {
       </span>
       <section className="categoryNameFlex">
         {/* Match props to category name */}
-        <div className="categoryName">Funny</div>
+        <button
+          onClick={() =>
+            props.client.revokeToken(function(err, res) {
+              console.log(err, res)
+            })
+          }
+        >
+          Logout
+        </button>
+        <div className="categoryName">Funny </div>
         <hr className="moopsGradient"></hr>
       </section>
       <nav className="categoryIconNav">
-        {/* <p className="showPrevious" onClick={() => showPreviousItem()}>
-          <i class="fas fa-angle-left"></i>
-        </p> */}
         <ul className="categoryIconNavUl">
           {categoryIcons.slice(0, itemsToShow).map((icon, index) => {
             {
@@ -75,9 +115,6 @@ const HomePage = props => {
             }
           })}
         </ul>
-        {/* <p className="navigateRight">
-          <i class="fas fa-angle-right"></i>
-        </p> */}
       </nav>
       <a className="btn btn-primary" onClick={showMore}>
         {expanded ? <span>Show less</span> : <span>Show more</span>}
