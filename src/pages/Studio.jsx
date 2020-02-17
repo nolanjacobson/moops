@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import BlankProfileImage from '../images/Blank-profile.png'
-import { ReactMediaRecorder } from 'react-media-recorder'
-
+// import { ReactMediaRecorder } from 'react-media-recorder'
+import VideoRecorder from 'react-video-recorder'
 import steem from 'steem'
 const Studio = props => {
   const [testBool, setTestBool] = useState(false)
@@ -41,16 +41,10 @@ const Studio = props => {
         <img className="profilePicture" src={profileImage} />
       </div>
       <div>
-        <ReactMediaRecorder
-          video
-          render={({ status, startRecording, stopRecording, mediaBlobUrl }) => (
-            <div>
-              <p>{status}</p>
-              <button onClick={startRecording}>Start Recording</button>
-              <button onClick={stopRecording}>Stop Recording</button>
-              <video src={mediaBlobUrl} controls autoplay loop />
-            </div>
-          )}
+        <VideoRecorder
+          onRecordingComplete={videoBlob => {
+            console.log('videoBlob', videoBlob)
+          }}
         />
       </div>
     </>
