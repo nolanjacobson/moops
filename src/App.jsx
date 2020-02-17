@@ -7,10 +7,11 @@ import NotFound from './pages/NotFound'
 import HamburgerMenu from './pages/HamburgerMenu'
 import LoginPage from './pages/LoginPage'
 import Categories from './pages/Categories'
+import Studio from './pages/Studio'
 let steemConnect = require('steemconnect')
 let client = new steemConnect.Client({
   app: 'moops',
-  callbackURL: 'http://127.0.0.1:3000/HomePage',
+  callbackURL: 'http://localhost:3000/Homepage',
   scope: ['login', 'posting', 'vote', 'comment'],
 })
 const App = () => {
@@ -60,7 +61,12 @@ const App = () => {
         <Route exact path="/Categories/" component={Categories}></Route>
         <Route
           exact
-          path="/HomePage/:id"
+          path="/home/:id"
+          render={() => <HomePage client={client} />}
+        ></Route>
+        <Route
+          exact
+          path="/home"
           render={() => <HomePage client={client} />}
         ></Route>
         <Route
@@ -69,6 +75,11 @@ const App = () => {
           render={() => (
             <LoginPage login={login} id={id} truthyVal={truthyVal} />
           )}
+        ></Route>
+        <Route
+          exact
+          path="/studio"
+          render={() => <Studio client={client} />}
         ></Route>
         <Route path="*" component={NotFound}></Route>
       </Switch>

@@ -2,7 +2,7 @@
   "private": true,
   "name": "moops",
   "scripts": {
-    "start": "react-scripts start",
+    "start": "set PORT=3000 && react-scripts start",
     "build": "react-scripts build",
     "predeploy": "react-scripts build",
     "deploy": "echo 'To setup deployment run: yarn setup-deploy'",
@@ -35,9 +35,13 @@
     "react": "^16.12.0",
     "react-burger-menu": "^2.6.13",
     "react-dom": "^16.12.0",
+    "react-media-recorder": "^1.2.0",
+    "react-multimedia-capture": "^1.2.4",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.3.0",
+    "react-video-recorder": "^3.17.0",
     "steem": "^0.7.10",
-    "steemconnect": "^3.0.4"
+    "steemconnect": "^3.0.4",
+    "webtorrent": "^0.107.17"
   }
 }

@@ -1,68 +1,85 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { slide as Menu } from 'react-burger-menu'
 import HamburgerMenuStyles from '../CSS/HamburgerMenu.css'
 import moopsLogo from '../images/moopsResized.PNG'
+import { Link } from 'react-router-dom'
 const HamburgerMenu = props => {
   const [dropDown, setDropDown] = useState(false)
   const dropDownFunc = () => {
-    if (!dropDown && props.favorites.length < 5) {
+    if (!dropDown) {
       setDropDown(true)
     } else {
       setDropDown(false)
     }
+  }
+
+  const logoutFunc = () => {
+    if (props.client.accessToken === undefined) {
+      return
+    } else {
+      sessionStorage.clear()
+      props.client.revokeToken(function(err, res) {
+        console.log(err, res)
+      })
+    }
+    window.location.replace('/login')
   }
   return (
     <Menu>
       <img className="moopsLogoMenu" src={moopsLogo} />
       <section className="items">
         <div>
-          <a href="/Home">
-            <span class="fas fa-home"></span>
-            <p className="iconTextHamburger">&nbsp;&nbsp;&nbsp;&nbsp;Home</p>
+          <a href="/home">
+            <span class="fas fa-home"></span>&nbsp;&nbsp;&nbsp;&nbsp;Home
           </a>
         </div>
         <div>
-          <a href="/Profile">
+          <a href="/profile">
             <span class="far fa-user-circle"></span>
-            <p className="iconTextHamburger">&nbsp;&nbsp;&nbsp;&nbsp;Profile</p>
+            &nbsp;&nbsp;&nbsp;&nbsp;Profile
           </a>
         </div>
         <div>
-          <a href="/Studio">
-            <span class="fas fa-video"></span>
-            <p className="iconTextHamburger">&nbsp;&nbsp;&nbsp;&nbsp;Studio</p>
+          <a href="/studio">
+            <span class="fas fa-video"></span>&nbsp;&nbsp;&nbsp;&nbsp;Studio
           </a>
         </div>
         <div onClick={dropDownFunc}>
-          <span class="far fa-star"></span>
-          <p className="iconTextHamburger">&nbsp;&nbsp;&nbsp;&nbsp;Favourites</p>
+          <a>
+            <span class="far fa-star"></span> &nbsp;&nbsp;&nbsp;&nbsp;Favourites
+          </a>
         </div>
-        {/* Return users favorite categories here. */}
         {dropDown && (
-          <div className="dropDown">
-            {props.favorites
-              .filter(item => item.length <= 5)
-              .map(item => {
-                return item
-              })}
-          </div>
+          <section className="dropDown">
+            {props.favorites.map(item => {
+              console.log(item.value)
+              return <Link to={item.value}>{item}</Link>
+            })}
+          </section>
         )}
         <div>
           <a href="/CloseAllTabs">
             <span class="far fa-window-close"></span>
-            <p className="iconTextHamburger">&nbsp;&nbsp;&nbsp;&nbsp;Close All Tabs</p>
+            &nbsp;&nbsp;&nbsp;&nbsp;Close All Tabs
           </a>
         </div>
-       
+
+        <div>
           <a href="/History">
             <span class="fas fa-feather-alt"></span>
-            <p className="iconTextHamburger">&nbsp;&nbsp;&nbsp;&nbsp;History</p>
+            &nbsp;&nbsp;&nbsp;&nbsp;History
           </a>
-        
+        </div>
         <div>
           <a href="/Wallet">
             <span class="fas fa-wallet"></span>
-            <p className="iconTextHamburger">&nbsp;&nbsp;&nbsp;&nbsp;Wallet</p>
+            &nbsp;&nbsp;&nbsp;&nbsp;Wallet
+          </a>
+        </div>
+        <div onClick={() => logoutFunc()}>
+          <a>
+            <span class="fas fa-wallet"></span>
+            &nbsp;&nbsp;&nbsp;&nbsp;Logout
           </a>
         </div>
       </section>

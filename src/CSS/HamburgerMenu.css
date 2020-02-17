@@ -85,7 +85,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
 }
 
 .items > div {
-  display:flex;
+  display: flex;
   flex-direction: column;
   width: 100%;
   background-color: rgb(92, 92, 92);
@@ -95,16 +95,20 @@ Note: Beware of modifying this element as it can break the animations - you shou
 }
 
 a {
+  display: flex;
+  flex-direction: row;
   text-decoration: none;
+  color: white;
 }
 span {
-  color: white;
+  color: rgb(43, 43, 43);
   text-decoration: none;
 }
 
 i {
   color: rgb(43, 43, 43);
   text-decoration: none;
+  font-size: 2rem;
 }
 
 .dropDown > i {
@@ -113,5 +117,5 @@ i {
 }
 
 .iconText {
-  font-size:0rem;
+  font-size: 0rem;
 }

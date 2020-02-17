@@ -4,7 +4,7 @@ import { Redirect, Route } from 'react-router-dom'
 const LoginPage = props => {
   return (
     <>
-      {props.truthyVal && <Redirect to={`/HomePage/${props.id}`} />}
+      {props.truthyVal && <Redirect to={`/home/${props.id}`} />}
       <button onClick={() => props.login()}>
         <div class="steemLogo"></div>
         <div class="steemConnectText">Log in with Steemconnect</div>
