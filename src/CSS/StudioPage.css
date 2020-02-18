@@ -1,0 +1,37 @@
+:root {
+  font: 16px / 1 sans-serif;
+}
+
+html {
+  height: 100%;
+  color: white;
+}
+
+body {
+  margin: 0;
+  min-height: 100%;
+  background-color: #231f20;
+}
+.studioProfilePicture {
+  object-fit: cover;
+  border-radius: 50%;
+  border-style: solid;
+  border-width: 2px;
+  height: 3rem;
+  margin-top: 1rem;
+  margin-left: 1.5rem;
+  border-color: white;
+}
+
+.fa-ellipsis-v {
+  color: white;
+  font-size: 2rem;
+  float: right;
+  margin-top: 1.5rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.camera {
+  padding-top: 1rem;
+}
