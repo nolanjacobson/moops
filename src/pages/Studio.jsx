@@ -5,14 +5,18 @@ import BlankProfileImage from '../images/Blank-profile.png'
 // import { ReactMediaRecorder } from 'react-media-recorder'
 import VideoRecorder from 'react-video-recorder'
 import steem from 'steem'
-let WebTorrent = require('webtorrent')
-let client = new WebTorrent()
+
+const createTorrent = require('create-torrent')
+const fs = require('fs')
+
 const Studio = props => {
   const [testBool, setTestBool] = useState(false)
 
   const [profileImage, setProfileImage] = useState(BlankProfileImage)
   const [username, setUsername] = useState('')
   const [video, setVideo] = useState('')
+  const [post, setPost] = useState(false)
+  const [secondBlob, setSecondBlob] = useState('')
   const [webTorrentMagnet, setWebTorrentMagnet] = useState('')
   const permlink = Math.random()
     .toString(36)
@@ -44,28 +48,42 @@ const Studio = props => {
     )
   }
   useEffect(() => {
-    if (video !== '') {
-      // console.log(video)
+    // video.name = 'test'
+    if (post && video !== '') {
+      // setVideo(...video, (video.name = 'newName'))
+      video.name = 'newName'
+      console.log(video)
       // let buf = new Buffer(video)
       // buf.name = 'Some file name'
       // client.seed(buf, torrent => {
       //   console.log('Client is seeding ' + torrent.magnetURI)
       // })
-      client.seed(video, torrent => {
-        console.log('test', torrent.magnetURI)
-        setWebTorrentMagnet(torrent.magnetURI)
-      })
-      client.on('torrent', () => {
-        makeNewPost()
+      // props.webTorrentClient.createTorrent(video, torrent => {
+      //   console.log('test', torrent)
+      // })
+      createTorrent(video, (err, torrent1) => {
+        if (!err) {
+          // `torrent` is a Buffer with the contents of the new .torrent file
+          console.log(torrent1)
+          props.webTorrentClient.seed(torrent1, torrent => {
+            setWebTorrentMagnet(torrent.magnetURI)
+            console.log(webTorrentMagnet)
+            // props.webTorrentClient.on('torrent', () => {
+            //   makeNewPost()
+            // })
+          })
+        }
       })
     }
-  }, [video])
+    // setWebTorrentMagnet(torrent.magnetURI)
+    // props.webTorrentClient.seed(video, torrent => {
+    //   console.log('test', torrent.magnetURI)
+    //   setWebTorrentMagnet(torrent.magnetURI)
 
-  // useEffect(() => {
-  //   if (webTorrentMagnet) {
-  //     makeNewPost()
-  //   }
-  // }, [webTorrentMagnet])
+    // })
+    // }
+  }, [post])
+
   useEffect(() => {
     if (testBool) {
       props.client.me((err, res) => {
@@ -86,18 +104,17 @@ const Studio = props => {
       </span>
       <div className="camera">
         <VideoRecorder
-          // isOnInitially={true}
-          // showReplayControls={true}
-          // replayVideoAutoplayAndLoopOff={true}
-          // timeLimit={7000}
+          isOnInitially={true}
+          showReplayControls={true}
+          replayVideoAutoplayAndLoopOff={true}
+          timeLimit={7000}
           onRecordingComplete={videoBlob => {
             setVideo(videoBlob)
+            console.log('test1', videoBlob)
           }}
-          // onStopRecording={videoBlob => {
-          //   setVideo(videoBlob)
-          // }}
         />
       </div>
+      <button onClick={() => setPost(true)}>Post</button>
     </>
   )
 }

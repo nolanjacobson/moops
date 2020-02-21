@@ -14,7 +14,10 @@ let client = new steemConnect.Client({
   callbackURL: 'http://localhost:3000/Homepage',
   scope: ['login', 'posting', 'vote', 'comment'],
 })
+let WebTorrent = require('webtorrent')
+let webTorrentClient = new WebTorrent()
 const App = () => {
+  console.log(webTorrentClient)
   const [user, setUser] = useState({})
   const [truthyVal, setTruthyVal] = useState(false)
   const [anotherValue, setAnotherValue] = useState(false)
@@ -62,12 +65,16 @@ const App = () => {
         <Route
           exact
           path="/home/:id"
-          render={() => <HomePage client={client} />}
+          render={() => (
+            <HomePage client={client} webTorrentClient={webTorrentClient} />
+          )}
         ></Route>
         <Route
           exact
           path="/home"
-          render={() => <HomePage client={client} />}
+          render={() => (
+            <HomePage client={client} webTorrentClient={webTorrentClient} />
+          )}
         ></Route>
         <Route
           exact
@@ -79,7 +86,9 @@ const App = () => {
         <Route
           exact
           path="/studio"
-          render={() => <Studio client={client} />}
+          render={() => (
+            <Studio client={client} webTorrentClient={webTorrentClient} />
+          )}
         ></Route>
         <Route path="*" component={NotFound}></Route>
       </Switch>

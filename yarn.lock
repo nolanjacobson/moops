@@ -3366,7 +3366,7 @@ create-hmac@^1.1.0, create-hmac@^1.1.2, create-hmac@^1.1.4:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-create-torrent@^4.0.0:
+create-torrent@^4.0.0, create-torrent@^4.4.1:
   version "4.4.1"
   resolved "https://registry.yarnpkg.com/create-torrent/-/create-torrent-4.4.1.tgz#0f4068ce375ad69d1fe13bc8aad01a42cd69ebc6"
   integrity sha512-LuoXnCRMKEo3KR3jEbCRpP3Nu2TUhLTlb/axP9+rl+ouhBpxTaHaTTN1bdUS2x2VK3wWyCBl1OZHyHhlRBntWg==

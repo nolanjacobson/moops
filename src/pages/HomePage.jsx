@@ -16,6 +16,7 @@ const HomePage = props => {
   const [testBool, setTestBool] = useState(false)
   const [profileImage, setProfileImage] = useState(BlankProfileImage)
   const [username, setUsername] = useState('')
+  const [results, setResults] = useState({})
   const permlink = Math.random()
     .toString(36)
     .substring(2)
@@ -24,11 +25,13 @@ const HomePage = props => {
     console.log(props.client.accessToken)
     setTestBool(true)
     var query = {
-      tag: 'steemit', // This tag is used to filter the results by a specific post tag
+      tag: 'moops', // This tag is used to filter the results by a specific post tag
       limit: 5, // This limit allows us to limit the overall results returned to 5
     }
     steem.api.getDiscussionsByTrending(query, function(err, result) {
-      console.log(err, result)
+      if (!err) {
+        setResults(result)
+      }
     })
   }, [])
   useEffect(() => {
@@ -100,8 +103,25 @@ const HomePage = props => {
     }
   }
 
+  useEffect(() => {
+    if (results) {
+      console.log('test')
+      // var torrentId =
+      //   'magnet:?xt=urn:btih:85b006288c170f63e231b05b617ec1b7c1ec5901&dn=Unnamed+Torrent+1582039938163&tr=udp%3A%2F%2Fexplodie.org%3A6969&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Ftracker.empire-js.us%3A1337&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.fastcast.nz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com'
+      // props.webTorrentClient.add(torrentId, function(torrent) {
+      //   // Torrents can contain many files. Let's use the .mp4 file
+      //   torrent.files.find(function(file) {
+      //     console.log(file)
+      //   })
+      // console.log(file)
+      // Display the file by adding it to the DOM. Supports video, audio, image, etc. files
+      // file.appendTo('body')
+      // })
+    }
+  }, [results])
   return (
     <>
+      {console.log(results)}
       <span className="flexIcons">
         <HamburgerMenu client={props.client} favorites={categoryIcons} />
 
@@ -134,10 +154,11 @@ const HomePage = props => {
           })}
         </ul>
       </nav>
-      <button onClick={makeNewPost}>Post</button>
+      {/* <button onClick={makeNewPost}>Post</button> */}
       {/* <a className="btn btn-primary" onClick={showMore}>
         {expanded ? <span>Show less</span> : <span>Show more</span>}
       </a> */}
+      <div className="test"></div>
     </>
   )
 }
