@@ -7,6 +7,7 @@ import axios from 'axios'
 import steem from 'steem'
 import BlankProfileImage from '../images/Blank-profile.png'
 const HomePage = props => {
+  console.log(props.match)
   const [categoryNames, setCategoryNames] = useState([
     'Funny',
     'Action',
@@ -106,17 +107,25 @@ const HomePage = props => {
   useEffect(() => {
     if (results) {
       console.log('test')
-      // var torrentId =
-      //   'magnet:?xt=urn:btih:85b006288c170f63e231b05b617ec1b7c1ec5901&dn=Unnamed+Torrent+1582039938163&tr=udp%3A%2F%2Fexplodie.org%3A6969&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Ftracker.empire-js.us%3A1337&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.fastcast.nz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com'
-      // props.webTorrentClient.add(torrentId, function(torrent) {
-      //   // Torrents can contain many files. Let's use the .mp4 file
-      //   torrent.files.find(function(file) {
-      //     console.log(file)
-      //   })
-      // console.log(file)
-      // Display the file by adding it to the DOM. Supports video, audio, image, etc. files
-      // file.appendTo('body')
-      // })
+      var torrentId =
+        // 'magnet:?xt=urn:btih:08ada5a7a6183aae1e09d831df6748d566095a10&dn=Sintel&tr=udp%3A%2F%2Fexplodie.org%3A6969&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Ftracker.empire-js.us%3A1337&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.fastcast.nz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com&ws=https%3A%2F%2Fwebtorrent.io%2Ftorrents%2F&xs=https%3A%2F%2Fwebtorrent.io%2Ftorrents%2Fsintel.torrent'
+        'magnet:?xt=urn:btih:85b006288c170f63e231b05b617ec1b7c1ec5901&dn=Unnamed+Torrent+1582039938163&tr=udp%3A%2F%2Fexplodie.org%3A6969&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Ftracker.empire-js.us%3A1337&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.fastcast.nz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com'
+      props.webTorrentClient.seed(torrentId, torrent => {
+        // setWebTorrentMagnet(torrent.magnetURI)
+        console.log(torrent)
+        // props.webTorrentClient.on('torrent', () => {
+        //   makeNewPost()
+        // })
+        // props.webTorrentClient.add(torrentId, function(torrent) {
+        //   // Torrents can contain many files. Let's use the .mp4 file
+        //   var file = torrent.files.find(function(file) {
+        //     return file.name.endsWith('.mp4')
+        //   })
+
+        //   // Display the file by adding it to the DOM. Supports video, audio, image, etc. files
+        //   file.appendTo('body')
+        // })
+      })
     }
   }, [results])
   return (

@@ -8,10 +8,11 @@ import HamburgerMenu from './pages/HamburgerMenu'
 import LoginPage from './pages/LoginPage'
 import Categories from './pages/Categories'
 import Studio from './pages/Studio'
+import ProfilePage from './pages/ProfilePage'
 let steemConnect = require('steemconnect')
 let client = new steemConnect.Client({
   app: 'moops',
-  callbackURL: 'http://localhost:3000/Homepage',
+  callbackURL: 'http://localhost:3000/home',
   scope: ['login', 'posting', 'vote', 'comment'],
 })
 let WebTorrent = require('webtorrent')
@@ -39,7 +40,7 @@ const App = () => {
     }
     client.login(params, function(err, token) {
       // console.log(client.getLoginURL())
-      // console.log(err, token)
+      console.log('test')
       setAccessToken(client.setAccessToken(token))
       sessionStorage.setItem('accessToken', token)
       if (!err) {
@@ -89,6 +90,11 @@ const App = () => {
           render={() => (
             <Studio client={client} webTorrentClient={webTorrentClient} />
           )}
+        ></Route>
+        <Route
+          exact
+          path="/profile/:id"
+          render={props => <ProfilePage {...props} client={client} />}
         ></Route>
         <Route path="*" component={NotFound}></Route>
       </Switch>

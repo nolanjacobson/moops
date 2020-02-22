@@ -51,9 +51,14 @@ const HamburgerMenu = props => {
         </div>
         {dropDown && (
           <section className="dropDown">
-            {props.favorites.map(item => {
-              console.log(item.value)
-              return <Link to={item.value}>{item}</Link>
+            {Object.values(props.favorites).map((icon, index) => {
+              {
+                return (
+                  <Link to={Object.keys(props.favorites)[index]}>
+                    <li className="categoryIconNavLi">{icon}</li>
+                  </Link>
+                )
+              }
             })}
           </section>
         )}
