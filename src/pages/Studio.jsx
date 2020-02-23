@@ -51,7 +51,7 @@ const Studio = props => {
     // video.name = 'test'
     if (post && video !== '') {
       // setVideo(...video, (video.name = 'newName'))
-      video.name = 'newName'
+      // video.name = 'newName'
       console.log(video)
       // let buf = new Buffer(video)
       // buf.name = 'Some file name'
@@ -81,7 +81,6 @@ const Studio = props => {
     //   setWebTorrentMagnet(torrent.magnetURI)
 
     // })
-    // }
   }, [post])
 
   useEffect(() => {

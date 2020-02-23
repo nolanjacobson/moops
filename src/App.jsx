@@ -12,7 +12,7 @@ import ProfilePage from './pages/ProfilePage'
 let steemConnect = require('steemconnect')
 let client = new steemConnect.Client({
   app: 'moops',
-  callbackURL: 'http://localhost:3000/home',
+  callbackURL: 'http://localhost:3000/login',
   scope: ['login', 'posting', 'vote', 'comment'],
 })
 let WebTorrent = require('webtorrent')
@@ -65,7 +65,7 @@ const App = () => {
         <Route exact path="/Categories/" component={Categories}></Route>
         <Route
           exact
-          path="/home/:id"
+          path="/home/:category"
           render={() => (
             <HomePage client={client} webTorrentClient={webTorrentClient} />
           )}
@@ -79,9 +79,15 @@ const App = () => {
         ></Route>
         <Route
           exact
-          path="/Login"
+          path="/login"
           render={() => (
-            <LoginPage login={login} id={id} truthyVal={truthyVal} />
+            <LoginPage
+              setTruthyVal={setTruthyVal}
+              login={login}
+              id={id}
+              truthyVal={truthyVal}
+              client={client}
+            />
           )}
         ></Route>
         <Route

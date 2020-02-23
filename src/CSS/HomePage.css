@@ -91,6 +91,19 @@ body {
 .fa-laugh-beam:hover {
   color: #ff927f;
 }
+
+.fa-paw:hover {
+  color: #aff589;
+}
+.fa-seedling:hover {
+  color: #c05798;
+}
+.fa-car:hover {
+  color: #7dd7e9;
+}
+.fa-hand-holding-heart:hover {
+  color: #f7ed8b;
+}
 /* i {
   color: rgb(141, 141, 141);
   font-size:3rem;

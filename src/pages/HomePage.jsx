@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react'
 import HamburgerMenu from './HamburgerMenu'
 import HomePageStyles from '../CSS/HomePage.css'
 import profilePicture from '../images/githubProfile.PNG'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import axios from 'axios'
 import steem from 'steem'
 import BlankProfileImage from '../images/Blank-profile.png'
 const HomePage = props => {
-  console.log(props.match)
   const [categoryNames, setCategoryNames] = useState([
     'Funny',
     'Action',
@@ -38,6 +37,7 @@ const HomePage = props => {
   useEffect(() => {
     if (testBool) {
       props.client.me(function(err, res) {
+        console.log(err, res)
         let validImage = JSON.parse(res.account.json_metadata)
 
         if (!err && validImage.profile.profile_image !== '') {
