@@ -9,14 +9,8 @@ import LoginPage from './pages/LoginPage'
 import Categories from './pages/Categories'
 import Studio from './pages/Studio'
 import ProfilePage from './pages/ProfilePage'
-let steemConnect = require('steemconnect')
-let client = new steemConnect.Client({
-  app: 'moops',
-  callbackURL: 'http://localhost:3000/login',
-  scope: ['login', 'posting', 'vote', 'comment'],
-})
-let WebTorrent = require('webtorrent')
-let webTorrentClient = new WebTorrent()
+import { client, steemConnect } from './utils/SteemConnect'
+import { webTorrentClient, WebTorrent } from './utils/WebTorrent'
 const App = () => {
   console.log(webTorrentClient)
   const [user, setUser] = useState({})
@@ -66,15 +60,23 @@ const App = () => {
         <Route
           exact
           path="/home/:category"
-          render={() => (
-            <HomePage client={client} webTorrentClient={webTorrentClient} />
+          render={props => (
+            <HomePage
+              {...props}
+              client={client}
+              webTorrentClient={webTorrentClient}
+            />
           )}
         ></Route>
         <Route
           exact
           path="/home"
-          render={() => (
-            <HomePage client={client} webTorrentClient={webTorrentClient} />
+          render={props => (
+            <HomePage
+              {...props}
+              client={client}
+              webTorrentClient={webTorrentClient}
+            />
           )}
         ></Route>
         <Route

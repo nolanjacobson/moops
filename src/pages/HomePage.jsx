@@ -132,7 +132,11 @@ const HomePage = props => {
     <>
       {console.log(results)}
       <span className="flexIcons">
-        <HamburgerMenu client={props.client} favorites={categoryIcons} />
+        <HamburgerMenu
+          id={username}
+          client={props.client}
+          favorites={categoryIcons}
+        />
 
         <img className="profilePicture" src={profileImage} />
 

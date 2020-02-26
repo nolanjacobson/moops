@@ -6,8 +6,8 @@ import BlankProfileImage from '../images/Blank-profile.png'
 import VideoRecorder from 'react-video-recorder'
 import steem from 'steem'
 
-const createTorrent = require('create-torrent')
-const fs = require('fs')
+// const Torrent = require('create-torrent')
+// const fs = require('fs')
 
 const Studio = props => {
   const [testBool, setTestBool] = useState(false)
@@ -60,29 +60,22 @@ const Studio = props => {
       // })
       // props.webTorrentClient.createTorrent(video, torrent => {
       //   console.log('test', torrent)
-      // })
-      createTorrent(video, (err, torrent1) => {
-        if (!err) {
-          // `torrent` is a Buffer with the contents of the new .torrent file
-          console.log(torrent1)
-          props.webTorrentClient.seed(torrent1, torrent => {
-            setWebTorrentMagnet(torrent.magnetURI)
-            console.log(webTorrentMagnet)
-            // props.webTorrentClient.on('torrent', () => {
-            //   makeNewPost()
-            // })
-          })
-        }
-      })
     }
-    // setWebTorrentMagnet(torrent.magnetURI)
-    // props.webTorrentClient.seed(video, torrent => {
-    //   console.log('test', torrent.magnetURI)
-    //   setWebTorrentMagnet(torrent.magnetURI)
-
-    // })
   }, [post])
 
+  useEffect(() => {
+    if (video) {
+      const file = new File([video], 'testVideo', { type: 'video/mp4' })
+      console.log(file)
+
+      if (file) {
+        props.webTorrentClient.seed(file, torrent => {
+          console.log('test', torrent.magnetURI)
+          setWebTorrentMagnet(torrent.magnetURI)
+        })
+      }
+    }
+  }, [video])
   useEffect(() => {
     if (testBool) {
       props.client.me((err, res) => {
@@ -103,10 +96,6 @@ const Studio = props => {
       </span>
       <div className="camera">
         <VideoRecorder
-          isOnInitially={true}
-          showReplayControls={true}
-          replayVideoAutoplayAndLoopOff={true}
-          timeLimit={7000}
           onRecordingComplete={videoBlob => {
             setVideo(videoBlob)
             console.log('test1', videoBlob)

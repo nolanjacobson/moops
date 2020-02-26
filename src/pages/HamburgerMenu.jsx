@@ -34,10 +34,10 @@ const HamburgerMenu = props => {
           </a>
         </div>
         <div>
-          <a href="/profile">
+          <Link to={`/profile/${props.id}`}>
             <span class="far fa-user-circle"></span>
             &nbsp;&nbsp;&nbsp;&nbsp;Profile
-          </a>
+          </Link>
         </div>
         <div>
           <a href="/studio">
