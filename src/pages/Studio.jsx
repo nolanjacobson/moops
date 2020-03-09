@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import StudioStyles from '../CSS/StudioPage.css'
-
 import BlankProfileImage from '../images/Blank-profile.png'
 // import { ReactMediaRecorder } from 'react-media-recorder'
 import VideoRecorder from 'react-video-recorder'
 import steem from 'steem'
+import * as IPFS from 'ipfs'
+import { isOnline } from 'ipfs/src/core/components'
+import axios from 'axios'
+const dragDrop = require('drag-drop')
+
+// When user drops files on the browser, create a new torrent and start seeding it!
 
 // const Torrent = require('create-torrent')
 // const fs = require('fs')
-
 const Studio = props => {
   const [testBool, setTestBool] = useState(false)
-
+  const [videoData, setVideoData] = useState(null)
+  const string = 'WEBVTTwhyNot'
   const [profileImage, setProfileImage] = useState(BlankProfileImage)
   const [username, setUsername] = useState('')
   const [video, setVideo] = useState('')
@@ -21,6 +26,25 @@ const Studio = props => {
   const permlink = Math.random()
     .toString(36)
     .substring(2)
+  const [data, setData] = useState('')
+ 
+  // const returnDataFromIPFS = async () => {
+  //   const node = await IPFS.create()
+  //   const version = await node.version()
+
+  //   console.log('Version:', version.version)
+  //   const filesAdded = await node.add('hello world 1')
+  //   // console.log('Added file:', filesAdded[0].path, filesAdded[0].hash)
+  //   // 'hash', known as CID, is a string uniquely addressing the data
+  //   // and can be used to get it again. 'files' is an array because
+  //   // 'add' supports multiple additions, but we only added one entry
+  //   setData(filesAdded)
+  // }
+
+  // useEffect(() => {
+  //   returnDataFromIPFS()
+  // }, [])
+
   useEffect(() => {
     props.client.setAccessToken(sessionStorage.getItem('accessToken'))
     console.log(props.client.accessToken)
@@ -33,6 +57,39 @@ const Studio = props => {
       console.log(err, result)
     })
   }, [])
+
+
+  useEffect(() => {}, [])
+  const postVideo = async file => {
+    console.log(file)
+    let form = new FormData()
+    form.append('file', file)
+    console.log(form)
+    const resp = await axios.post(
+      `http://localhost:5000/uploadVideo?videoEncodingFormats=240p,480p,720p,1080p&sprite=true`,
+      form
+    )
+
+    const tokenResponse = await axios.get(
+      `http://localhost:5000/getProgressByToken/${resp.data.token}`
+    )
+    console.log(tokenResponse.data)
+    console.log(resp.data)
+  }
+
+  useEffect(() => {
+    if (video) {
+      postVideo(video)
+    }
+  }, [video])
+
+
+  useEffect(() => {
+    if (videoData !== null) {
+      postVideo(videoData)
+    }
+  }, [videoData])
+
   const makeNewPost = () => {
     props.client.comment(
       '',
@@ -47,21 +104,6 @@ const Studio = props => {
       }
     )
   }
-  useEffect(() => {
-    // video.name = 'test'
-    if (post && video !== '') {
-      // setVideo(...video, (video.name = 'newName'))
-      // video.name = 'newName'
-      console.log(video)
-      // let buf = new Buffer(video)
-      // buf.name = 'Some file name'
-      // client.seed(buf, torrent => {
-      //   console.log('Client is seeding ' + torrent.magnetURI)
-      // })
-      // props.webTorrentClient.createTorrent(video, torrent => {
-      //   console.log('test', torrent)
-    }
-  }, [post])
 
   useEffect(() => {
     if (video) {
@@ -69,10 +111,7 @@ const Studio = props => {
       console.log(file)
 
       if (file) {
-        props.webTorrentClient.seed(file, torrent => {
-          console.log('test', torrent.magnetURI)
-          setWebTorrentMagnet(torrent.magnetURI)
-        })
+        postVideo(file)
       }
     }
   }, [video])
@@ -90,6 +129,7 @@ const Studio = props => {
   }, [testBool])
   return (
     <>
+      {console.log(videoData)}
       <span>
         <img className="studioProfilePicture" src={profileImage} />
         <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
@@ -103,6 +143,13 @@ const Studio = props => {
         />
       </div>
       <button onClick={() => setPost(true)}>Post</button>
+      <input
+        id="upload"
+        type="file"
+        name="upload"
+        multiple
+        onChange={e => setVideo(e.target.value)}
+      ></input>
     </>
   )
 }

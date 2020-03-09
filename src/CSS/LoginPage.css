@@ -36,6 +36,10 @@ body {
   padding: 1rem;
 }
 
+.steemConnectText:hover {
+  cursor: pointer;
+}
+
 @media (min-width: 768px) {
   .steemConnectText {
     width: 20%;

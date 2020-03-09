@@ -30,7 +30,10 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
+    "drag-drop": "^6.0.0",
+    "ipfs": "^0.41.2",
     "js-cookie": "^2.2.1",
+    "js-ipfs": "^0.0.301",
     "json": "^9.0.6",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",

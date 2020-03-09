@@ -57,6 +57,14 @@ a {
   top: 1px;
 }
 
+video {
+  height: 12rem;
+  width: 75%;
+}
+
+.test {
+  text-align: center;
+}
 @media (min-width: 768px) {
   .moopsBackgroundImage {
     width: 50%;
