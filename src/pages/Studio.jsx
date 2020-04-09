@@ -129,7 +129,7 @@ const Studio = props => {
   }, [testBool])
   return (
     <>
-      {console.log(videoData)}
+      {console.log(videoData, 'test')}
       <span>
         <img className="studioProfilePicture" src={profileImage} />
         <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
