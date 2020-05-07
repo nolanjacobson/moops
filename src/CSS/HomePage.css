@@ -34,13 +34,13 @@ body {
   border-color: white;
 }
 
-.bm-burger-button {
+/* .bm-burger-button {
   position: fixed;
   width: 36px;
   height: 30px;
   left: 36px;
   top: 36px;
-}
+} */
 
 .categoryNameFlex {
   display: flex;
@@ -88,6 +88,43 @@ body {
   background-color: ;
 } */
 
+.videos-outer-flex {
+  background-color: #404042;
+  padding-bottom: 10rem;
+  padding-top: 1rem;
+}
+
+.video > span {
+  color: white;
+}
+
+.like-icon {
+  margin-left: 1rem;
+}
+.time {
+  margin-left: 1rem;
+}
+.videos-inner-flex {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.video-thumbnail {
+  width: 10.5rem;
+  height: 10rem;
+  object-fit: cover;
+}
+.video {
+  width: 45%;
+  background-color: #231f20;
+  margin: 0.25rem;
+}
+
+.description {
+  border-top: 1px solid white;
+  border-bottom: 1px solid white;
+}
 .fa-laugh-beam:hover {
   color: #ff927f;
 }

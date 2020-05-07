@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import PencilIcon from '../images/pencil.png'
 import BlankProfileImage from '../images/Blank-profile.png'
-
+import { capitalizeFirstLetter } from '../utils/Functions'
+import LocationIcon from '../images/network-icon.png'
+import WebsiteIcon from '../images/website-icon.png'
+import LocationWebsiteFlex from '../components/LocationWebsiteFlex'
+import ProfileIconsImages from '../components/ProfileIconsImages'
 const ProfilePage = ({ hiveSignerClient, match }) => {
   const [background, setBackground] = useState('')
   const [profileImage, setProfileImage] = useState(BlankProfileImage)
@@ -32,51 +36,11 @@ const ProfilePage = ({ hiveSignerClient, match }) => {
   }, [metaData])
   return (
     <>
-      {console.log(parsedMetaData)}
-      <img
-        style={{
-          position: 'relative',
-          top: 0,
-          left: 0,
-          borderBottom: '2px solid white',
-          height: '9rem',
-          width: '28rem',
-          objectFit: 'cover',
-        }}
-        src={background}
-      />
-      <i
-        class="fas fa-ellipsis-v"
-        aria-hidden="true"
-        style={{
-          marginTop: '-8rem',
-          position: 'absolute',
-          left: '330px',
-        }}
-      ></i>
-      <img
-        style={{
-          marginTop: '-2rem',
-          position: 'absolute',
-          left: '345px',
-          height: '1rem',
-        }}
-        src={PencilIcon}
-      />
-      <img
-        style={{
-          position: 'absolute',
-          top: '90px',
-          left: '150px',
-          borderRadius: '50%',
-          height: '5rem',
-          border: '2px solid white',
-        }}
-        src={profileImage}
-      />
+      <ProfileIconsImages background={background} profileImage={profileImage} />
       <h2 style={{ textAlign: 'center', marginTop: '2rem' }}>
-        {parsedMetaData && parsedMetaData.name}
+        {parsedMetaData ? capitalizeFirstLetter(parsedMetaData.name) : <>N/A</>}
       </h2>
+      <LocationWebsiteFlex parsedMetaData={parsedMetaData} />
     </>
   )
 }

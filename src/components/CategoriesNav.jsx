@@ -1,14 +1,14 @@
 import React from 'react'
 import HomePageStyles from '../CSS/HomePage.css'
 import { Link } from 'react-router-dom'
+import { capitalizeFirstLetter } from '../utils/Functions'
 const Categories = ({ match, categoryIcons }) => {
   return (
     <>
       {' '}
       <section className="categoryNameFlex">
         <div className="categoryName">
-          {match.params.category.charAt(0).toUpperCase() +
-            match.params.category.slice(1)}
+          {capitalizeFirstLetter(match.params.category)}
         </div>
         <hr className="moopsGradient"></hr>
       </section>
