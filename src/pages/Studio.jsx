@@ -7,82 +7,70 @@ import steem from 'steem'
 import * as IPFS from 'ipfs'
 import { isOnline } from 'ipfs/src/core/components'
 import axios from 'axios'
+import { hiveSignerClient } from '../utils/HiveSigner'
 const dragDrop = require('drag-drop')
 
 // When user drops files on the browser, create a new torrent and start seeding it!
 
 // const Torrent = require('create-torrent')
 // const fs = require('fs')
-const Studio = props => {
-  const [testBool, setTestBool] = useState(false)
+const Studio = ({ hiveSignerClient }) => {
+  const username = JSON.parse(sessionStorage.getItem('user')).user
+
+  let form = new FormData()
+
   const [videoData, setVideoData] = useState(null)
   const string = 'WEBVTTwhyNot'
   const [profileImage, setProfileImage] = useState(BlankProfileImage)
-  const [username, setUsername] = useState('')
   const [video, setVideo] = useState('')
   const [post, setPost] = useState(false)
   const [secondBlob, setSecondBlob] = useState('')
-  const [webTorrentMagnet, setWebTorrentMagnet] = useState('')
   const permlink = Math.random()
     .toString(36)
     .substring(2)
-  const [data, setData] = useState('')
- 
-  // const returnDataFromIPFS = async () => {
-  //   const node = await IPFS.create()
-  //   const version = await node.version()
-
-  //   console.log('Version:', version.version)
-  //   const filesAdded = await node.add('hello world 1')
-  //   // console.log('Added file:', filesAdded[0].path, filesAdded[0].hash)
-  //   // 'hash', known as CID, is a string uniquely addressing the data
-  //   // and can be used to get it again. 'files' is an array because
-  //   // 'add' supports multiple additions, but we only added one entry
-  //   setData(filesAdded)
-  // }
-
-  // useEffect(() => {
-  //   returnDataFromIPFS()
-  // }, [])
 
   useEffect(() => {
-    props.client.setAccessToken(sessionStorage.getItem('accessToken'))
-    console.log(props.client.accessToken)
-    setTestBool(true)
-    var query = {
-      tag: 'moops', // This tag is used to filter the results by a specific post tag
-      limit: 5, // This limit allows us to limit the overall results returned to 5
+    if (sessionStorage.getItem('accessToken')) {
+      if (sessionStorage.getItem('profileImage')) {
+        setProfileImage(sessionStorage.getItem('profileImage'))
+      }
+      hiveSignerClient.setAccessToken(sessionStorage.getItem('accessToken'))
+    } else {
+      window.location.replace('/login')
     }
-    steem.api.getDiscussionsByTrending(query, function(err, result) {
-      console.log(err, result)
-    })
   }, [])
-
 
   useEffect(() => {}, [])
   const postVideo = async file => {
-    console.log(file)
-    let form = new FormData()
-    form.append('file', file)
+    // console.log(file)
+    // if (file) {
+    //   console.log('here')
+    //   form.append('file', file)
+    // }
     console.log(form)
+    console.log(form.length, 'form')
     const resp = await axios.post(
       `http://localhost:5000/uploadVideo?videoEncodingFormats=240p,480p,720p,1080p&sprite=true`,
       form
     )
+    if (resp) {
+      console.log(resp.data)
 
-    const tokenResponse = await axios.get(
-      `http://localhost:5000/getProgressByToken/${resp.data.token}`
-    )
-    console.log(tokenResponse.data)
-    console.log(resp.data)
+      const tokenResponse = await axios.get(`http://localhost:5000/index.html`)
+      if (tokenResponse) {
+        console.log(tokenResponse.data)
+      }
+    }
   }
 
   useEffect(() => {
     if (video) {
-      postVideo(video)
+      form.append('file', video, 'video.mp4')
+      if (form) {
+        postVideo()
+      }
     }
   }, [video])
-
 
   useEffect(() => {
     if (videoData !== null) {
@@ -90,20 +78,20 @@ const Studio = props => {
     }
   }, [videoData])
 
-  const makeNewPost = () => {
-    props.client.comment(
-      '',
-      'moops',
-      username,
-      permlink,
-      'WebTorrent Test',
-      webTorrentMagnet,
-      JSON.stringify({ tags: 'moops' }),
-      (err, res) => {
-        console.log(err, res)
-      }
-    )
-  }
+  // const makeNewPost = () => {
+  //   hiveSignerClient.comment(
+  //     '',
+  //     'moops',
+  //     username,
+  //     permlink,
+  //     'WebTorrent Test',
+  //     webTorrentMagnet,
+  //     JSON.stringify({ tags: 'moops' }),
+  //     (err, res) => {
+  //       console.log(err, res)
+  //     }
+  //   )
+  // }
 
   useEffect(() => {
     if (video) {
@@ -115,18 +103,7 @@ const Studio = props => {
       }
     }
   }, [video])
-  useEffect(() => {
-    if (testBool) {
-      props.client.me((err, res) => {
-        let validImage = JSON.parse(res.account.json_metadata)
 
-        if (!err && validImage.profile.profile_image !== '') {
-          setProfileImage(validImage.profile.profile_image)
-          setUsername(res.user)
-        }
-      })
-    }
-  }, [testBool])
   return (
     <>
       {console.log(videoData, 'test')}

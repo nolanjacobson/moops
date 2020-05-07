@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom'
 import HomePage from './pages/HomePage'
-import Page2 from './pages/Page2'
 import LandingPage from './pages/LandingPage'
 import NotFound from './pages/NotFound'
 import HamburgerMenu from './pages/HamburgerMenu'
@@ -9,49 +8,69 @@ import LoginPage from './pages/LoginPage'
 import Categories from './pages/Categories'
 import Studio from './pages/Studio'
 import ProfilePage from './pages/ProfilePage'
-import { client, steemConnect } from './utils/SteemConnect'
-import { webTorrentClient, WebTorrent } from './utils/WebTorrent'
+import { client } from './utils/HiveChainApi'
+import { hiveSignerClient } from './utils/HiveSigner'
+import steem from 'steem'
+
 const App = () => {
-  console.log(webTorrentClient)
+  // user hook is used to collect response from login
   const [user, setUser] = useState({})
-  const [truthyVal, setTruthyVal] = useState(false)
-  const [anotherValue, setAnotherValue] = useState(false)
-  const [resp, setResp] = useState({})
-  const [x, setX] = useState()
-  const [id, setId] = useState('')
-  const [accessToken, setAccessToken] = useState('')
-  let params = {}
+  // loginSuccess hook is used to pass down a true/false value to the login component
+  const [loginSuccess, setLoginSuccess] = useState(false)
+
+  // used an effect because of time synchronization between loginSuccess and user object
   useEffect(() => {
-    if (id) {
-      setTruthyVal(true)
+    console.log('user', user)
+    if (user._id) {
+      setLoginSuccess(true)
     }
-    // console.log('accessToken', client.accessToken)
-  }, [id])
+  }, [user])
   const login = () => {
     // The "username" parameter is required prior to log in for "Steem Keychain" users.
-    if (steemConnect.useSteemKeychain) {
+    let params = {}
+    if (hiveSignerClient.useHiveKeychain) {
       params = { username: '' }
     }
-    client.login(params, function(err, token) {
-      // console.log(client.getLoginURL())
-      console.log('test')
-      setAccessToken(client.setAccessToken(token))
+    hiveSignerClient.login(params, function(err, token) {
+      hiveSignerClient.setAccessToken(token)
       sessionStorage.setItem('accessToken', token)
       if (!err) {
-        client.me(function(err, res) {
-          setResp(res)
-          setId(res.user)
-          console.log(resp)
-          console.log(id)
+        hiveSignerClient.me(function(err, res) {
+          if (!err) {
+            // store the user in sessionstorage to easily fetch immutable data without making new api calls
+            sessionStorage.setItem('user', JSON.stringify(res))
+            setUser(res)
+            let validImage = JSON.parse(res.account.json_metadata)
+
+            if (validImage.profile.profile_image !== '') {
+              // store the profileimage in session storage to make app more efficient and reload when needed
+              sessionStorage.setItem(
+                'profileImage',
+                validImage.profile.profile_image
+              )
+            }
+            steem.api.getAccounts([res.user], function(err, result) {
+              if (
+                'cover_image' in
+                JSON.parse(result[0].posting_json_metadata).profile
+              ) {
+                sessionStorage.setItem(
+                  'backgroundImage',
+                  JSON.parse(result[0].posting_json_metadata).profile
+                    .cover_image
+                )
+              }
+            })
+          } else {
+            console.log(err, 'error')
+          }
         })
       } else {
-        setTruthyVal(false)
+        setLoginSuccess(false)
         alert('Error: please try signing in again.')
       }
     })
   }
-  console.log(resp)
-
   return (
     <Router>
       <Switch>
@@ -64,7 +83,9 @@ const App = () => {
             <HomePage
               {...props}
               client={client}
-              webTorrentClient={webTorrentClient}
+              hiveSignerClient={hiveSignerClient}
+              loginSuccess={loginSuccess}
+              setLoginSuccess={setLoginSuccess}
             />
           )}
         ></Route>
@@ -75,7 +96,7 @@ const App = () => {
             <HomePage
               {...props}
               client={client}
-              webTorrentClient={webTorrentClient}
+              hiveSignerClient={hiveSignerClient}
             />
           )}
         ></Route>
@@ -84,11 +105,11 @@ const App = () => {
           path="/login"
           render={() => (
             <LoginPage
-              setTruthyVal={setTruthyVal}
               login={login}
-              id={id}
-              truthyVal={truthyVal}
               client={client}
+              loginSuccess={loginSuccess}
+              hiveSignerClient={hiveSignerClient}
+              setLoginSuccess={setLoginSuccess}
             />
           )}
         ></Route>
@@ -96,13 +117,19 @@ const App = () => {
           exact
           path="/studio"
           render={() => (
-            <Studio client={client} webTorrentClient={webTorrentClient} />
+            <Studio client={client} hiveSignerClient={hiveSignerClient} />
           )}
         ></Route>
         <Route
           exact
           path="/profile/:id"
-          render={props => <ProfilePage {...props} client={client} />}
+          render={props => (
+            <ProfilePage
+              {...props}
+              client={client}
+              hiveSignerClient={hiveSignerClient}
+            />
+          )}
         ></Route>
         <Route path="*" component={NotFound}></Route>
       </Switch>

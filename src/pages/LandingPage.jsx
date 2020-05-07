@@ -17,7 +17,7 @@ const HomePage = () => {
           <a href="">Terms &#38; Services</a>
         </p>
       </div>
-      <a href="/Login">
+      <a href="/login">
         <button className="agreement">I AGREE</button>
       </a>
     </div>

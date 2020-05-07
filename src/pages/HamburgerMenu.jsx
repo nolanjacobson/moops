@@ -3,7 +3,13 @@ import { slide as Menu } from 'react-burger-menu'
 import HamburgerMenuStyles from '../CSS/HamburgerMenu.css'
 import moopsLogo from '../images/moopsResized.PNG'
 import { Link } from 'react-router-dom'
-const HamburgerMenu = props => {
+const HamburgerMenu = ({
+  hiveSignerClient,
+  id,
+  favorites,
+  loginSuccess,
+  setLoginSuccess,
+}) => {
   const [dropDown, setDropDown] = useState(false)
   const dropDownFunc = () => {
     if (!dropDown) {
@@ -14,13 +20,14 @@ const HamburgerMenu = props => {
   }
 
   const logoutFunc = () => {
-    if (props.client.accessToken === undefined) {
+    if (hiveSignerClient.accessToken === undefined) {
       return
     } else {
       sessionStorage.clear()
-      props.client.revokeToken(function(err, res) {
+      hiveSignerClient.revokeToken(function(err, res) {
         console.log(err, res)
       })
+      setLoginSuccess(false)
     }
     window.location.replace('/login')
   }
@@ -34,7 +41,7 @@ const HamburgerMenu = props => {
           </a>
         </div>
         <div>
-          <Link to={`/profile/${props.id}`}>
+          <Link to={`/profile/${id}`}>
             <span class="far fa-user-circle"></span>
             &nbsp;&nbsp;&nbsp;&nbsp;Profile
           </Link>
@@ -51,10 +58,10 @@ const HamburgerMenu = props => {
         </div>
         {dropDown && (
           <section className="dropDown">
-            {Object.values(props.favorites).map((icon, index) => {
+            {Object.values(favorites).map((icon, index) => {
               {
                 return (
-                  <Link to={Object.keys(props.favorites)[index]}>
+                  <Link to={Object.keys(favorites)[index]}>
                     <li className="categoryIconNavLi">{icon}</li>
                   </Link>
                 )

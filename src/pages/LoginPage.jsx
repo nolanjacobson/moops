@@ -1,25 +1,35 @@
 import React, { useState, useEffect } from 'react'
 import { Redirect, Route, useLocation } from 'react-router-dom'
 import LoginStyles from '../CSS/LoginPage.css'
-const LoginPage = props => {
+import HiveSignerImage from '../images/hivesigner.svg'
+const LoginPage = ({
+  hiveSignerClient,
+  login,
+  loginSuccess,
+  setLoginSuccess,
+}) => {
   let location = useLocation()
   let accessToken = location.search.substring(14).split('&username')[0]
   if (accessToken) {
-    props.client.setAccessToken(accessToken)
+    hiveSignerClient.setAccessToken(accessToken)
     sessionStorage.setItem('accessToken', accessToken)
-    props.setTruthyVal(true)
+    setLoginSuccess(true)
   }
-  console.log(accessToken)
+  console.log(loginSuccess, 'loginSuccess')
   return (
     <>
-      {props.truthyVal && <Redirect to={`/home/funny`} />}
+      {loginSuccess ? (
+        <Redirect to={`/home/funny`} />
+      ) : (
+        <Redirect to={'/login'} />
+      )}
       <div className="outer-box">
-        <div className="steemConnectText" onClick={() => props.login()}>
+        <div className="hiveConnectText">
           <img
             className="steem-logo"
-            src={'https://fundition.io/images/apps/steem.svg'}
+            src={HiveSignerImage}
+            onClick={() => login()}
           />
-          <p>Log in with Steemconnect</p>
         </div>
       </div>
     </>
